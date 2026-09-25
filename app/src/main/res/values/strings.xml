@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Captive Portal</string>
+
+    <!-- General Status -->
+    <string name="status_unknown">حالة المراقبة: غير معروفة</string>
+    <string name="status_running">خدمة المراقبة نشطة وتعمل في الخلفية</string>
+    <string name="status_stopped">خدمة المراقبة متوقفة</string>
+    <string name="status_denied">تم رفض إذن الإشعارات</string>
+    <string name="btn_start_service">تشغيل خدمة المراقبة</string>
+    <string name="btn_stop_service">إيقاف الخدمة</string>
+    <string name="btn_check_now">فحص الاتصال الآن</string>
+    <string name="btn_open_portal">فتح بوابة الدخول</string>
+
+    <!-- Notifications -->
+    <string name="notif_monitor_title">مراقبة الشبكة نشطة</string>
+    <string name="notif_portal_title">تسجيل الدخول إلى الشبكة مطلوب</string>
+    <string name="notif_portal_text">اضغط لإتمام المصادقة والوصول إلى الإنترنت</string>
+    <string name="notif_channel_monitor">حالة المراقبة المستمرة</string>
+    <string name="notif_channel_portal">تنبيهات بوابة الدخول</string>
+
+    <!-- Network state -->
+    <string name="net_connected_ok">الاتصال بالإنترنت سليم (204)</string>
+    <string name="net_portal_detected">تم رصد بوابة تسجيل دخول!</string>
+    <string name="net_lost">تم فقدان الاتصال بالشبكة</string>
+    <string name="net_checking">جارٍ فحص الاتصال بالإنترنت...</string>
+    <string name="net_error">تعذر الوصول إلى خوادم الفحص</string>
+</resources>

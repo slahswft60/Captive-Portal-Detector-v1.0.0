@@ -1,0 +1,7 @@
+{
+  "name": "Captive Portal",
+  "description": "تطبيق أندرويد متكامل لمراقبة اتصال الشبكة واكتشاف بوابات الدخول (Captive Portal) في الخلفية مع إشعارات ومتصفح مدمج.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

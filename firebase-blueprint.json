@@ -1,0 +1,47 @@
+{
+  "$schema": "https://firebase.google.com/schemas/firestore-blueprint.json",
+  "entities": {
+    "UserProfile": {
+      "collection": "users",
+      "path": "users/{userId}",
+      "description": "User profile document synced upon authentication",
+      "fields": {
+        "userId": { "type": "string", "description": "Unique Google user ID" },
+        "email": { "type": "string", "description": "User email address" },
+        "displayName": { "type": "string", "description": "User display name" },
+        "updatedAt": { "type": "timestamp", "description": "Last update timestamp" }
+      },
+      "required": ["userId", "updatedAt"]
+    },
+    "PortalCloudEvent": {
+      "collection": "portal_events",
+      "path": "users/{userId}/portal_events/{eventId}",
+      "description": "Recorded network captive portal events and connectivity probes",
+      "fields": {
+        "id": { "type": "string", "description": "Unique event identifier" },
+        "userId": { "type": "string", "description": "Owner Google user ID" },
+        "eventType": { "type": "string", "description": "Type of event (PORTAL_DETECTED, VALIDATED, MANUAL_CHECK, SERVICE_START)" },
+        "networkType": { "type": "string", "description": "Network transport (WIFI, CELLULAR, ETHERNET)" },
+        "redirectUrl": { "type": "string", "description": "Captive portal redirect URL if detected" },
+        "statusCode": { "type": "number", "description": "HTTP probe status code (204, 302, 200)" },
+        "probeUrl": { "type": "string", "description": "Probe endpoint URL used" },
+        "details": { "type": "string", "description": "Human-readable event details" },
+        "timestamp": { "type": "timestamp", "description": "Server timestamp of event creation" }
+      },
+      "required": ["id", "userId", "eventType", "networkType", "statusCode", "timestamp"]
+    },
+    "UserSettings": {
+      "collection": "settings",
+      "path": "users/{userId}/settings/{settingId}",
+      "description": "User preferences and cloud configuration",
+      "fields": {
+        "userId": { "type": "string", "description": "Owner Google user ID" },
+        "preferredProbeUrl": { "type": "string", "description": "Custom or preferred probe URL" },
+        "autoOpenBrowser": { "type": "boolean", "description": "Automatically launch portal in browser" },
+        "notificationsEnabled": { "type": "boolean", "description": "Whether push/local notifications are active" },
+        "updatedAt": { "type": "timestamp", "description": "Timestamp when settings were saved" }
+      },
+      "required": ["userId", "preferredProbeUrl", "updatedAt"]
+    }
+  }
+}

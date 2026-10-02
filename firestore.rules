@@ -1,0 +1,68 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidTimestamp(val) {
+      return val is timestamp;
+    }
+
+    function isValidUserProfile(data, userId) {
+      return data.userId == userId
+          && data.userId is string
+          && (!('email' in data) || data.email is string)
+          && (!('displayName' in data) || data.displayName is string)
+          && isValidTimestamp(data.updatedAt);
+    }
+
+    function isValidPortalEvent(data, userId) {
+      return data.userId == userId
+          && data.id is string
+          && data.eventType in ['PORTAL_DETECTED', 'VALIDATED', 'MANUAL_CHECK', 'SERVICE_START', 'NETWORK_LOST', 'ERROR']
+          && data.networkType is string
+          && data.statusCode is number
+          && (!('redirectUrl' in data) || data.redirectUrl == null || data.redirectUrl is string)
+          && (!('probeUrl' in data) || data.probeUrl is string)
+          && (!('details' in data) || data.details is string)
+          && isValidTimestamp(data.timestamp);
+    }
+
+    function isValidUserSettings(data, userId) {
+      return data.userId == userId
+          && data.preferredProbeUrl is string
+          && (!('autoOpenBrowser' in data) || data.autoOpenBrowser is bool)
+          && (!('notificationsEnabled' in data) || data.notificationsEnabled is bool)
+          && isValidTimestamp(data.updatedAt);
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidUserProfile(request.resource.data, userId);
+      allow delete: if isOwner(userId);
+
+      match /portal_events/{eventId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidPortalEvent(request.resource.data, userId);
+        allow delete: if isOwner(userId);
+      }
+
+      match /settings/{settingId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidUserSettings(request.resource.data, userId);
+        allow delete: if isOwner(userId);
+      }
+    }
+  }
+}

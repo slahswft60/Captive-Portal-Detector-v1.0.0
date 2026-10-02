@@ -1,4 +1,5 @@
 import com.google.gms.googleservices.GoogleServicesPlugin.MissingGoogleServicesStrategy
+import java.util.Locale
 
 plugins {
   alias(libs.plugins.android.application)
@@ -7,6 +8,10 @@ plugins {
   alias(libs.plugins.secrets)
   alias(libs.plugins.google.services)
 }
+
+// Force US locale to prevent code generators like KSP / Room from generating Arabic digits
+Locale.setDefault(Locale.US)
+
 
 android {
   namespace = "com.example"
@@ -136,3 +141,10 @@ dependencies {
   "ksp"(libs.androidx.room.compiler)
   "ksp"(libs.moshi.kotlin.codegen)
 }
+
+tasks.configureEach {
+  doFirst {
+    Locale.setDefault(Locale.US)
+  }
+}
+
